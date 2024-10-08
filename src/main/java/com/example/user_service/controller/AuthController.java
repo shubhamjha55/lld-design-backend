@@ -1,5 +1,6 @@
 package com.example.user_service.controller;
 
+import com.example.user_service.dto.UserProfileDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -8,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.user_service.config.JwtResponse;
+import com.example.user_service.dto.LoginResponseDTO;
 import com.example.user_service.config.JwtUtil;
-import com.example.user_service.model.LoginRequest;
+import com.example.user_service.dto.LoginRequestDTO;
 import com.example.user_service.model.User;
 import com.example.user_service.service.UserService;
 
@@ -30,19 +31,21 @@ public class AuthController {
     private BCryptPasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid LoginRequestDTO loginRequestDTO) {
         try {
-            User user = userService.getUserByUsername(loginRequest.getUsername());
+            User user = userService.getUserByUsername(loginRequestDTO.getUsername());
             if (user == null) {
-                return ResponseEntity.status(401).body(new JwtResponse(401, "User does not exist"));
+                return ResponseEntity.ok(new LoginResponseDTO("User does not exist. Please Sign up to continue!", null, null));
             }
-            if (passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+            if (passwordEncoder.matches(loginRequestDTO.getPassword(), user.getPassword())) {
                 String token = jwtUtil.generateToken(user.getUsername());
-                return ResponseEntity.ok(new JwtResponse(200, "Login successful", token));
+                UserProfileDto userProfileDto = new UserProfileDto(user);
+                return ResponseEntity.ok(new LoginResponseDTO("Login successful", token, userProfileDto));
             }
-            return ResponseEntity.status(401).body(new JwtResponse(401, "Invalid credentials"));
+            return ResponseEntity.ok(new LoginResponseDTO("Invalid credentials. Please check your password and try again!", null, null));
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(new JwtResponse(500, "Internal server error"));
+            // Log the exception Application Insights or something
+            return ResponseEntity.ok(new LoginResponseDTO("Internal server error", null, null));
         }
     }
 }

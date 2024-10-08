@@ -7,6 +7,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -21,29 +26,38 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(authz -> authz
-                // To be updated later
-                .requestMatchers("/api/users/register").permitAll()
-                .requestMatchers("/api/auth/login").permitAll()
-                .requestMatchers("/api/users/**").authenticated()
-                .anyRequest().authenticated()
-            )
-            .csrf(csrf -> csrf
-                .disable() // Disabling CSRF protection to use postman
-            )
-            .formLogin(form -> form
-                .disable() // Disable form login
-            )
-            .logout(logout -> logout
-                .permitAll()
-            )
-            // Added Authentication filtering for any request other than register or login
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .cors() // Enable CORS
+                .and()
+                .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/api/users/register").permitAll()
+                        .requestMatchers("/api/auth/login").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .csrf(csrf -> csrf.disable()) // Disabling CSRF protection
+                .formLogin(form -> form.disable()) // Disable form login
+                .logout(logout -> logout.permitAll())
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    // CORS Configuration
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration corsConfig = new CorsConfiguration();
+
+        corsConfig.setAllowCredentials(true);
+        corsConfig.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // Allow Next.js app
+        corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+
+        source.registerCorsConfiguration("/**", corsConfig);
+        return new CorsFilter(source);
     }
 }

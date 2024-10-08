@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.user_service.model.User;
-import com.example.user_service.model.UserProfileDto;
-import com.example.user_service.model.UserRegisterationApiResponse;
+import com.example.user_service.dto.UserProfileDto;
 import com.example.user_service.service.UserService;
+import com.example.user_service.dto.SignUpRequestDTO;
+import com.example.user_service.dto.SignUpResponseDTO;
 
 @RestController
 @RequestMapping("/api/users")
@@ -22,8 +23,8 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<UserRegisterationApiResponse> registerUser(@RequestBody User user) {
-        return userService.registerUser(user);
+    public ResponseEntity<SignUpResponseDTO> registerUser(@RequestBody SignUpRequestDTO signUpRequestDTO) {
+        return userService.registerUser(signUpRequestDTO);
     }
 
     @GetMapping("/profile/{username}")

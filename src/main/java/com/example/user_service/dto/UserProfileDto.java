@@ -1,4 +1,6 @@
-package com.example.user_service.model;
+package com.example.user_service.dto;
+
+import com.example.user_service.model.User;
 
 public class UserProfileDto {
 
