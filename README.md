@@ -1,88 +1,21 @@
-# eComm-UserService-MicroService
+# LLD Master
 
-## Overview
+• A platform for practicing low-level design questions.<br>
+• The project uses Next.js/Tailwind CSS for frontend and Spring Boot/PostgreSQL for [Backend](https://github.com/shubhamjha55/lld-design-backend)
 
-The `eComm-UserService-MicroService` is a microservice designed to handle user registration and authentication for an e-commerce platform. This service is built using Java (Springboot 3.3.2) / PostgreSQL and adheres to the principles of microservice architecture, ensuring scalability, maintainability, and ease of deployment.
+# A few screenshots from some pages:
 
-## Features
+1. Register
+![image](https://github.com/user-attachments/assets/dd1dad2e-ab9b-42a2-9d8c-ce0f44e1d3d3)
 
-- **User Registration**: Allows new users to register by providing necessary information.
-- **User Authentication**: Validates user credentials for secure access.
-- **Password Management**: Supports password hashing and verification.
-- **Token Generation**: Provides JWT tokens for session management and secure communication.
+![Register](https://github.com/user-attachments/assets/12f7ee9f-abc5-433a-ae25-ff4386922a2b)
 
-## Architecture
+2. Sign In
+![image](https://github.com/user-attachments/assets/4954aa25-a2ae-49a3-a15d-4d20592e1eb4)
 
-The architecture of the `eComm-UserService-MicroService` is designed to be modular and scalable. Here is an overview of the key components:
+  ![image](https://github.com/user-attachments/assets/a6a9ecde-4093-423f-b895-86cb6fd82e45)
 
-### 1. Controller Layer
-
-- **UserController**: Handles HTTP requests related to user operations such as registration, login, and password management.
-  
-### 2. Service Layer
-
-- **UserService**: Contains business logic for user operations. It interacts with the repository layer to perform CRUD operations on user data.
-
-### 3. Repository Layer
-
-- **UserRepository**: Interfaces with the database to perform CRUD operations on user entities.
-
-### 4. Security Layer
-
-- **JwtTokenProvider**: Manages JWT token creation and validation.
-- **PasswordEncoder**: Handles password hashing and verification.
-
-### 5. Configuration
-
-- **Application Configuration**: Contains configuration files for database connections, security settings, and other environment-specific variables.
-
-## Getting Started
-
-### Prerequisites
-
-- Java Development Kit (JDK) 11 or higher
-- Maven 3.6+
-- A running instance of a database (e.g., MySQL, PostgreSQL)
-
-### Installation and Setup
-
-1. **Clone the repository:**
-   ```sh
-   git clone https://github.com/shubhamjha55/eComm-UserService-MicroService.git
-   cd eComm-UserService-MicroService
-   ```
-
-2. **Configure the Application**
-
-   Update the `application.properties` file with your database configurations and other environment-specific settings.
-
-3. **Install dependencies / Build the Project**
-
-   ```sh
-   mvn clean install
-   ```
-4. **Run the application**
-
-  ```sh
-   mvn spring-boot:run
-   ```
+3. Problems page
+   ![image](https://github.com/user-attachments/assets/0c7148ed-4b6b-40dc-b2ad-23fc815fe182)
 
 
-# API Endpoints
-
-- **POST /api/users/register**: Register a new user.
-- **POST /api/auth/login**: Authenticate a user and generate a JWT token.
-- **POST /api/users/profile/{username}**: Returns the user profile after client assertion check (using JWT token).
-- **GET /api/user/{id}**: Retrieve user details by ID.
-
-## Contributing
-
-Contributions are welcome! Please fork the repository and create a pull request with your changes.
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
-## Contact
-
-For any inquiries or support, please contact Shubham J.
