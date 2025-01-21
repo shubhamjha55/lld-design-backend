@@ -1,7 +1,7 @@
 # LLD Master
 
 • A platform for practicing low-level design questions.<br>
-• The project uses Next.js/Tailwind CSS for frontend and Spring Boot/PostgreSQL for [Backend](https://github.com/shubhamjha55/lld-design-backend)
+• The project uses Next.js/Tailwind CSS for [Frontend](https://github.com/shubhamjha55/lld-design-waka) and Spring Boot/PostgreSQL for Backend
 
 # A few screenshots from some pages:
 
